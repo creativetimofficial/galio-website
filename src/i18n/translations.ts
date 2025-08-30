@@ -55,14 +55,17 @@ export const translations = {
       releases: "Releases",
       stars: "Stars",
       fork: "Fork",
-      premiumThemes: {
-        explore: "Explorar Temas Premium"
-      },
       sponsor: "Sponsor",
       
       chat: "Chat"
     },
-    
+
+    // Premium Themes
+    premiumThemes: {
+      title: "Explore premium themes built with Galio.",
+      description: "Discover high-quality, professionally designed themes that leverage the power of Galio to create stunning mobile applications."
+    },
+
     // Features
     features: {
       installation: {
@@ -294,7 +297,13 @@ export const translations = {
       sponsor: "Patrocinar",
       chat: "Chat"
     },
-    
+
+    // Premium Themes
+    premiumThemes: {
+      title: "Explora temas premium construidos con Galio.",
+      description: "Descubre temas de alta calidad y diseñados profesionalmente que aprovechan el poder de Galio para crear aplicaciones móviles impresionantes."
+    },
+
     // Features
     features: {
       installation: {

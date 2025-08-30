@@ -15,7 +15,13 @@ export default function PremiemThemes(): JSX.Element {
             <main className="flex flex-col items-center justify-center">
                 <div className="lg:w-[53%] pt-15">
                     <div className="flex flex-col items-center justify-center">
-                        <p className="text-2xl md:text-5xl text-center">Explore premium themes built with Galio.</p>
+                        <h1 className="text-2xl md:text-5xl text-center">
+                            {t('premiumThemes.title')}
+                        </h1>
+                        <p className="mt-4 text-center text-gray-600 dark:text-gray-300 max-w-3xl text-xl">
+                            {t('premiumThemes.description')}
+                        </p>
+
                     </div>
                     <div className="flex flex-col items-center justify-center space-y-8 p-8 dark:from-gray-800 dark:to-gray-900 rounded-3xl">
                         <div className="flex flex-wrap justify-center gap-3">
