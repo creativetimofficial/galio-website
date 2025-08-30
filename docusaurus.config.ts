@@ -7,7 +7,7 @@ import tailwindPlugin from "./src/plugins/tailwind-config.cjs"; // add this
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'Galio',
+  title: 'React Native | Galio Framework',
   tagline: 'Galio is cool',
   favicon: 'img/galio.png',
 
@@ -31,7 +31,7 @@ const config: Config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
-  trailingSlash: true,
+  trailingSlash: false,
 
 
   // Even if you don't use internationalization, you can use this field to set
