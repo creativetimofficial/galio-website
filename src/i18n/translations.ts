@@ -225,6 +225,13 @@ export const translations = {
         title: "Galio Community",
         description: "If you're interested in discussing, participating and helping each other, the Galio community is the place to be."
       }
+    },
+
+    // Not Found
+    notFound: {
+      title: "Page Not Found",
+      description: "Sorry, we couldn't find what you were looking for.",
+      home: "Go to Homepage"
     }
   },
   
@@ -450,6 +457,13 @@ export const translations = {
         title: "Comunidad Galio",
         description: "Si estás interesado en discutir, participar y ayudarse mutuamente, la comunidad Galio es el lugar para estar."
       }
+    },
+
+    // Not Found
+    notFound: {
+      title: "Página no encontrada",
+      description: "Lo sentimos, no pudimos encontrar lo que buscabas.",
+      home: "Ir a la página principal"
     }
   }
 };

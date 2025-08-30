@@ -10,7 +10,7 @@ import CarbonAds from "./CarbonAds";
 export default function IntroGalio(): JSX.Element {
     const [copied, setCopied] = useState(false);
     const { t } = useTranslations();
-    
+
     const handleCopy = (text: string) => {
         navigator.clipboard.writeText(text);
         setCopied(true);
@@ -80,14 +80,25 @@ export default function IntroGalio(): JSX.Element {
                             />
                         </div>
                         <div className="flex flex-wrap justify-center gap-3">
-                            {[t('intro.github'), t('intro.documentation'), t('intro.releases')].map((item) => (
-                                <button 
-                                    key={item}
+                                <a 
+
+                                    href='https://github.com/galio-org/galio'
                                     className="px-6 py-2.5 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-[#ff1270]/30 dark:border-[#ff1270]/50 rounded-lg transition-all duration-200 hover:bg-[#ff1270]/10 dark:hover:bg-[#ff1270]/20 hover:border-[#ff1270] dark:hover:border-[#ff1270] hover:text-[#ff1270] dark:hover:text-[#ff1270] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#ff1270] focus:ring-offset-2"
                                 >
-                                    {item}
-                                </button>
-                            ))}
+                                    <span>{t('intro.github')}</span>
+                                </a>
+                                <a 
+                                    href='/docs'
+                                    className="px-6 py-2.5 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-[#ff1270]/30 dark:border-[#ff1270]/50 rounded-lg transition-all duration-200 hover:bg-[#ff1270]/10 dark:hover:bg-[#ff1270]/20 hover:border-[#ff1270] dark:hover:border-[#ff1270] hover:text-[#ff1270] dark:hover:text-[#ff1270] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#ff1270] focus:ring-offset-2"
+                                >
+                                    <span>{t('intro.documentation')}</span>
+                                </a>
+                                <a 
+                                    href='https://github.com/galio-org/galio/releases'
+                                    className="px-6 py-2.5 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-[#ff1270]/30 dark:border-[#ff1270]/50 rounded-lg transition-all duration-200 hover:bg-[#ff1270]/10 dark:hover:bg-[#ff1270]/20 hover:border-[#ff1270] dark:hover:border-[#ff1270] hover:text-[#ff1270] dark:hover:text-[#ff1270] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#ff1270] focus:ring-offset-2"
+                                >
+                                    <span>{t('intro.releases')}</span>
+                                </a>
                         </div>
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 w-full">
                             <Ratings 
