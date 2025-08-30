@@ -1,20 +1,20 @@
 ---
 title: "Galio Theme"
-description: "Learn how to customize and use the GalioTheme in your React Native applications with Galio Framework."
+description: "Learn how to customize and use the Galio Theme in your React Native applications with Galio Framework."
 keywords: [
   "GalioTheme",
-  "GalioTheme – Documentation"
+  "GalioTheme - Documentation"
 ]
 source_url: "/docs/get-started/galio-theme"
 ---
 
-## GalioTheme usage
+## Galio Theme usage
 
 All the colors, sizes and layout rules are stored in our default theme. This can be found in the theme folder inside our library. Every component inherits its styling rules from that file. Imagine this... You're building an application and you have 30 buttons using the primary color but you feel like that color doesn't really suit your project. You can re-write our theme file with only the things you want to change by using our theme components and all Galio components will change the that certain style.
 
 ### 1. Components
 
-- **GalioTheme**: default theme for components exporting an object with { `COLORS`, `SIZES` }
+- **GalioTheme**: default theme for components exporting an object with \{ `COLORS`, `SIZES` \}
 - **withGalio**: HoC for any React-Native component with args: Component and optional styles. By using this, you can access constants we have in our default theme.
 - **GalioProvider**: React Context Provider getting custom theme from props and pass it to the React Context.
 

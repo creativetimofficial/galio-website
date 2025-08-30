@@ -222,7 +222,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Galio, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Galio, by <a href="https://www.creative-tim.com/" style="color: inherit;">Creative Tim</a>`,
     },
     prism: {
       theme: prismThemes.github,
