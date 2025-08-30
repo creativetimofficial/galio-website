@@ -40,7 +40,7 @@ export default function Features(): ReactNode {
         </p>
         </div>
       ),
-      link: "/docs/intro",
+      link: "/docs",
       linkText: t('features.installation.readInstallation')
     },
     {
@@ -74,7 +74,7 @@ export default function Features(): ReactNode {
           </pre>
         </p>
       ),
-      link: "/docs/intro",
+      link: "/docs",
       linkText: t('features.usage.exploreDocumentation')
     },
     {

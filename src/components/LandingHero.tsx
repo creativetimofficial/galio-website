@@ -99,7 +99,7 @@ export default function LandingHero(): ReactNode {
                     </div>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 md:gap-8 mt-6 z-[4] relative">
                         <a 
-                            href="/docs/intro"
+                            href="/docs"
                             className="appearance-none text-white text-sm md:text-base hover:scale-105 transition-all duration-300 no-underline px-6 sm:px-8 py-3 md:py-4 rounded-full z-[4] font-medium shadow-lg hover:shadow-xl w-full sm:w-auto text-center"
                             style={{
                                 background: 'linear-gradient(45deg, #6366f1, #ec4899, #f472b6)',
@@ -109,7 +109,7 @@ export default function LandingHero(): ReactNode {
                             {t('hero.startBuilding')}
                         </a>
                         <a 
-                            href="/docs/intro" 
+                            href="/docs" 
                             className="hidden md:block text-pink-600 hover:text-pink-700 underline hover:no-underline transition-all duration-200 z-[4] font-medium px-4 py-2 rounded-lg hover:bg-pink-50 text-sm md:text-base"
                         >
                             {t('hero.learnMore')}

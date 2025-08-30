@@ -35,7 +35,7 @@ export default function IntroGalio(): JSX.Element {
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row items-start gap-4">
                         <a 
-                            href="/docs/intro" 
+                            href="/docs" 
                             className="group inline-flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#ff1270] to-cyan-800 dark:from-[#ff1270] dark:to-cyan-600 text-white font-semibold py-4 px-8 transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-lg hover:shadow-[#ff1270]/25 dark:hover:shadow-cyan-500/25 dark:focus:ring-cyan-500 w-full sm:w-auto"
                         >
                             <svg width="20" height="20" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform group-hover:scale-110">

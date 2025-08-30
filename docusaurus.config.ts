@@ -140,7 +140,7 @@ const config: Config = {
           items: [
             {
               label: 'Galio Docs',
-              to: '/docs/intro',
+              to: '/docs',
             },
             {
               label: 'Get Started',
