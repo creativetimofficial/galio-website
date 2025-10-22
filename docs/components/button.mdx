@@ -1,9 +1,10 @@
 ---
 title: "Button"
-description: "Learn how to use the Button component in your React Native applications with Galio Framework."
+description: "Comprehensive guide to using the new React Native Button component in Galio Framework."
 keywords: [
-  "Button",
-  "Button - Documentation"
+  "React Native Button",
+  "Galio Button",
+  "Button Component"
 ]
 source_url: "/docs/components/button"
 ---
@@ -12,81 +13,180 @@ import CarbonAds from '@site/src/components/CarbonAds';
 
 # React Native Button Component
 
-A basic button component that is looking good on any platform. This react native button is ready to handle most used scenarios which will enable you to build apps faster with cleaner code.
+A powerful and highly customizable button built with `Pressable`, designed to look great and perform consistently across iOS, Android, and Web.  
+It supports icons, loading states, ripple effects, rounded styles, shadows, and flexible width options.
 
 <CarbonAds serve="CE7IPK3L" placement="galioio" />
 
 ![Button](/img/docs/button/button.png)
 
-### Usage
+---
 
-Imports:
+## Installation
+
+```bash
+npm install galio-framework
+# or
+yarn add galio-framework
+```
+
+---
+
+## Usage
 
 ```jsx
 import { Button } from 'galio-framework';
 ```
 
-![Button](/img/docs/button/buttons_simple.png)
-
-Code example:
+### Basic Example
 
 ```jsx
-<Button>primary</Button>
-<Button color="info">info</Button>
-<Button color="success">success</Button>
-<Button color="warning">warning</Button>
-<Button color="error">error</Button>
+<Button>Primary</Button>
+<Button color="info">Info</Button>
+<Button color="success">Success</Button>
+<Button color="warning">Warning</Button>
+<Button color="error">Error</Button>
+<Button color="white">White</Button>
 ```
 
-![Button](/img/docs/button/buttons_advanced.png)
+![Button](/img/docs/button/buttons_simple.png)
 
-Advanced examples:
+---
+
+### Advanced Examples
 
 ```jsx
-<Button 
-  color="primary" 
-  size="large" 
-  shadowless 
-  onPress={() => console.log('Button pressed')}
+<Button
+  color="primary"
+  size="lg"
+  shadow="md"
+  onPress={() => console.log('Pressed')}
 >
   Press Me
 </Button>
 
-<Button 
-  color="success" 
-  icon="check" 
-  iconFamily="antdesign"
-  iconSize={16}
+<Button
+  color="success"
+  icon="check"
+  iconFamily="AntDesign"
+  iconSize={18}
   loading={true}
   loadingSize="small"
+  loadingColor="white"
 >
-  Loading Button
+  Loading
 </Button>
+
+<Button
+  color="#7B61FF"
+  round
+  rippleColor="rgba(255,255,255,0.2)"
+>
+  Custom Color
+</Button>
+
+<Button
+  color="error"
+  icon="close"
+  onlyIcon
+  size="sm"
+  round
+/>
 ```
 
-### Props
+![Button](/img/docs/button/buttons_advanced.png)
 
-| Prop           | Type         | Default             | Description                                                                                            |
-| -------------- | ------------ | ------------------- | ------------------------------------------------------------------------------------------------------ |
-| **children**   | node         | null                | Button content                                                                                          |
-| **color**      | string       | 'primary'           | Color options: 'primary', 'theme', 'error', 'warning', 'success', 'transparent' or custom color        |
-| **size**       | string       | 'large'             | Size options: 'large', 'small'                                                                         |
-| **disabled**   | bool         | false               | Disables the button                                                                                    |
-| **loading**    | bool         | false               | Shows loading spinner                                                                                  |
-| **loadingSize**| string       | 'small'             | Loading spinner size: 'small', 'large'                                                                 |
-| **icon**       | string       | null                | Icon name from Expo's icon library                                                                     |
-| **iconColor**  | string       | `theme.COLORS.BLACK`  | Icon color                                                                                             |
-| **iconFamily** | string       | null                | Icon family from Expo's icon library                                                                   |
-| **iconSize**   | number       | 14                  | Icon size                                                                                              |
-| **onlyIcon**   | bool         | false               | Styling for icon-only buttons                                                                          |
-| **capitalize** | bool         | false               | Transforms first character to uppercase                                                                |
-| **uppercase**  | bool         | false               | Makes all letters uppercase                                                                            |
-| **lowercase**  | bool         | false               | Makes all letters lowercase                                                                            |
-| **radius**     | number       | 0                   | Border radius                                                                                          |
-| **shadowless** | bool         | false               | Removes shadow                                                                                         |
-| **shadowColor**| string       | null                | Custom shadow color                                                                                    |
-| **opacity**    | number       | 0.8                 | Button opacity                                                                                         |
-| **onPress**    | function     | null                | Press handler function                                                                                 |
-| **style**      | object       | null                | Custom styles                                                                                          |
-| **textStyle**  | object       | null                | Custom text styles                                                                                     |
-| **...TouchableOpacity.props** | - | - | All TouchableOpacity props are supported |
+---
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|----------|-------------|
+| **children** | `ReactNode` | `undefined` | Button text or content. |
+| **color** | `string` | `'primary'` | Background color or predefined theme color (`primary`, `info`, `success`, `warning`, `error`, etc). |
+| **disabled** | `boolean` | `false` | Disables button interaction and lowers opacity. |
+| **icon** | `string \| boolean` | `undefined` | Icon name (from Expo vector icons). |
+| **iconFamily** | `string` | `'AntDesign'` | Icon family (AntDesign, Ionicons, etc). |
+| **iconPosition** | `'left' \| 'right'` | `'left'` | Icon placement. |
+| **iconSize** | `number` | `16` | Icon size in pixels. |
+| **iconColor** | `string` | `theme.colors.white` | Icon color. |
+| **onlyIcon** | `boolean` | `false` | Renders only an icon (no text). Useful for round icon buttons. |
+| **loading** | `boolean` | `false` | Displays a loading spinner instead of button content. |
+| **loadingSize** | `'small' \| 'large'` | `'small'` | Spinner size. |
+| **loadingColor** | `string` | `theme.colors.white` | Spinner color. |
+| **opacity** | `number` | `0.8` | Button press opacity effect. |
+| **rippleColor** | `string` | `'rgba(0,0,0,0.1)'` | Android ripple color. |
+| **round** | `boolean` | `false` | Makes the button rounded (circular if `onlyIcon`). |
+| **size** | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'small' \| 'default' \| 'large'` | `'md'` | Button size (new responsive size system). |
+| **fullWidth** | `boolean` | `false` | Makes the button stretch to 100% width of its container. |
+| **block** | `boolean` | `false` | Alias for `fullWidth` (kept for backward compatibility). |
+| **shadow** | `keyof theme.shadows` | `undefined` | Applies predefined shadow from theme (platform-specific). |
+| **style** | `ViewStyle` | `undefined` | Custom button styles. |
+| **textStyle** | `TextStyle` | `undefined` | Custom text styles. |
+| **textTransform** | `'none' \| 'uppercase' \| 'lowercase' \| 'capitalize'` | `'none'` | Controls text casing. |
+| **onPress** | `() => void` | `undefined` | Button press handler. |
+| **accessibilityLabel** | `string` | - | Accessibility label for screen readers. |
+| **testID** | `string` | - | Test ID for automated testing. |
+
+---
+
+## Notes
+
+- Buttons now use **`Pressable`** instead of `TouchableOpacity` for improved performance and ripple support.
+- `block` is deprecated and will be removed in a future release. Use `fullWidth` instead.
+- New `shadow` system supports theme-based shadows across platforms.
+  - Note: the `shadow` prop expects a key defined in your theme's `shadows` (for example: `sm`, `md`, `lg`). Ensure the key you use exists in your theme.
+- The `size` prop supports both **legacy values** (`small`, `large`) and **new ones** (`xs`, `sm`, `md`, `lg`, `xl`).
+- The `color` prop accepts **theme color keys** or **custom hex values**.
+- When using `onlyIcon`, the button automatically adjusts width and height based on `iconSize`.
+
+---
+
+### Example: Full-width and Round Buttons
+
+```jsx
+<Button color="info" fullWidth>Full Width</Button>
+<Button color="primary" round icon="plus" onlyIcon />
+```
+
+---
+
+## Theming Support
+
+This component is fully integrated with Galio's **Theme Provider**:
+
+```jsx
+import { ThemeProvider } from 'galio-framework';
+
+<ThemeProvider
+  theme={{
+    colors: { primary: '#007BFF', success: '#00D084' },
+    sizes: { BASE: 8, BUTTON_HEIGHT: 45, FONT: 14 },
+  }}
+>
+  <Button color="primary">Custom Theme Button</Button>
+</ThemeProvider>
+```
+
+---
+
+## Accessibility
+
+The button automatically applies accessibility roles and states:
+- `accessibilityRole="button"`
+- `accessibilityState={{ disabled }}`
+- `accessibilityLabel` defaults to the text content
+
+---
+
+## Migration from Previous Version
+
+| Old Prop | New Equivalent | Notes |
+|-----------|----------------|-------|
+| `shadowless` | `shadow={undefined}` | Shadows now use named presets |
+| `radius` | `round` | Simplified rounded prop |
+| `uppercase`, `lowercase`, `capitalize` | `textTransform` | Unified control |
+| `opacity` | same | Works with `Pressable` |
+| `block` | `fullWidth` | Alias kept for backward compatibility |
+
+---
