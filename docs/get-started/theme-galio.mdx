@@ -11,131 +11,217 @@ source_url: "/docs/get-started/galio-theme"
 import CarbonAds from '@site/src/components/CarbonAds';
 
 # Galio Theme usage
-
-All the colors, sizes and layout rules are stored in our default theme. This can be found in the theme folder inside our library. Every component inherits its styling rules from that file. Imagine this... You're building an application and you have 30 buttons using the primary color but you feel like that color doesn't really suit your project. You can re-write our theme file with only the things you want to change by using our theme components and all Galio components will change the that certain style.
+All colors, sizes and layout tokens live in the library's `src/theme` folder. Modern Galio exposes a simple, semantic theme API that is easier to customize and adapts automatically to light/dark mode.
 
 <CarbonAds serve="CE7IP3L" placement="galioio" />
 
-### 1. Components
+## Goals of the modern theme
 
-- **GalioTheme**: default theme for components exporting an object with \{ `COLORS`, `SIZES` \}
-- **withGalio**: HoC for any React-Native component with args: Component and optional styles. By using this, you can access constants we have in our default theme.
-- **GalioProvider**: React Context Provider getting custom theme from props and pass it to the React Context.
+- Provide a single source of truth for semantic tokens (`colors`, `sizes`, `shadows`).
+- Let applications override only the tokens they need (deep-merged).
+- Offer simple hooks: `useTheme()` and `useColors()` for component code.
+- Keep backward compatibility with legacy exports while encouraging migration.
 
-### 2. Usage
+## Quick start
 
-1. Install the latest galio-framework using npm install galio-framework or yarn add galio-framework
-
-2. Import the required components:
+1. Install Galio normally.
+2. Wrap your app with `GalioProvider` and pass minimal overrides (your brand colors).
 
 ```jsx
-import { theme, withGalio, GalioProvider } from 'galio-framework'
+import { GalioProvider } from 'galio-framework';
+import { myAppTheme } from './theme';
+
+export default function App() {
+  return (
+    <GalioProvider theme={myAppTheme}>
+      <YourApp />
+    </GalioProvider>
+  );
+}
 ```
 
-3. Export your component with withGalio:
+Where `myAppTheme` contains only what you want to override, for example:
 
-```jsx
-export default withGalio(YourComponent, componentStyles);
-```
-
-4. Custom theme constants will overwrite the default galio theme constants
-
-```jsx
-const customTheme = {
-  SIZES: { BASE: 18, } 
-  // this will overwrite the Galio SIZES BASE value 16
-  COLORS: { PRIMARY: 'red', } 
-  // this will overwrite the Galio COLORS PRIMARY color #B23AFC
+```js
+export const myAppTheme = {
+  colors: {
+    primary: '#6366F1',
+    success: '#10B981',
+    error: '#EF4444',
+  },
+  sizes: {
+    BASE: 18,
+    BUTTON_HEIGHT: 48,
+  }
 };
- <GalioProvider theme={customTheme}>
-  <YourComponent />
+```
+
+## Core APIs
+
+### `GalioProvider`
+
+- Props: `mode?: 'light' | 'dark' | 'auto'`, `theme?: { colors?, sizes?, shadows?, COLORS?, SIZES?, customTheme? }`.
+- Behavior: deep-merges provided tokens with library defaults and exposes the resulting theme via context.
+
+### `useTheme()`
+
+Returns the full theme object: `{ colors, sizes, shadows, mode, ... }`.
+Use when you need multiple theme sections (colors + sizes).
+
+```js
+const { colors, sizes, mode } = useTheme();
+```
+
+### `useColors()`
+
+Returns just the semantic `colors` object for the current mode. Use this inside components for concise color access.
+
+```js
+const colors = useColors();
+return <View style={{ backgroundColor: colors.background }} />;
+```
+
+## What tokens exist (summary)
+
+The library exposes these modern token groups (defaults are in `src/theme`):
+
+- `colors` — semantic color tokens for backgrounds, text, states (primary, success, error, warning, info), surfaces, borders, disabled colors and utility colors like `white`/`black`/`transparent`.
+- `sizes` — base sizing constants and component-specific sizes (ICON, BUTTON_HEIGHT, CARD_* values, CHECKBOX sizes, etc.).
+- `shadows` — named shadow presets (`xs`, `sm`, `md`, `lg`, `xl`, plus legacy keys) with platform-specific values for `ios`, `android`, and `web`.
+
+Refer to `src/theme/colors.tsx` and `src/theme/sizes.tsx` for the full token lists.
+
+## Compact reference — Most-used tokens
+
+### Colors (common)
+
+| Token | Purpose |
+|-------|---------|
+| `background` | App background color |
+| `surface` | Card / panel background |
+| `text` | Primary text color |
+| `textSecondary` | Secondary / muted text |
+| `primary` | Brand primary color |
+| `primaryHover` | Primary hover/active state |
+| `success` | Success state color |
+| `error` | Error state color |
+| `warning` | Warning state color |
+| `info` | Informational color |
+| `border` | Standard border color |
+| `disabled` | Disabled state color |
+
+### Sizes (common)
+
+| Token | Purpose |
+|-------|---------|
+| `BASE` | Base unit for spacing and typography |
+| `FONT` | Default font size |
+| `ICON` | Default icon size |
+| `ICON_MEDIUM` | Medium icon size |
+| `ICON_LARGE` | Large icon size |
+| `BUTTON_HEIGHT` | Standard button height |
+| `CARD_WIDTH` | Default card width |
+| `CARD_BORDER_RADIUS` | Card corner radius |
+| `CHECKBOX_WIDTH` | Checkbox size |
+
+Refer to `src/theme/colors.tsx` and `src/theme/sizes.tsx` for the full list and exact defaults.
+
+## Theming examples
+
+Use semantic tokens directly in components:
+
+```js
+import { useColors } from 'galio-framework';
+
+function MyCard() {
+  const colors = useColors();
+  return (
+    <View style={{ backgroundColor: colors.surface, borderColor: colors.border }}>
+      <Text style={{ color: colors.text }}>Hello</Text>
+    </View>
+  );
+}
+```
+
+Override shadows and sizes in the provider if you need a different scale or shadow system:
+
+```js
+<GalioProvider theme={{
+  shadows: { md: { ios: {...}, android: {...}, web: {...} } },
+  sizes: { BASE: 18 }
+}}>
+  <App />
 </GalioProvider>
 ```
 
-#### 2.1 withGalio in-depth usage and explanation
 
-Exporting a React class/function using our withGalio function enables your component to consume Galio's React Context and pass down theme in your component as a prop or as an argument for styles. So now you can use our constant colors and sizes in your own components/screens.
+## How to add a custom theme
 
-```jsx
-const styles = theme => StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.COLORS.FACEBOOK
+Follow these minimal steps to add a custom theme to your app. The library deep-merges your overrides, so you only need to supply the tokens you want to change.
+
+1. Create a `src/theme.ts` (or `app/theme.ts`) file in your app. Use the modern token names (`colors`, `sizes`, `shadows`). Example (TypeScript):
+
+```ts
+import type { Partial } from 'utility-types';
+import type { GalioTheme } from 'galio-framework/src/theme';
+
+export const myAppTheme: Partial<Pick<GalioTheme, 'colors' | 'sizes' | 'shadows'>> = {
+  colors: {
+    primary: '#6366F1',
+    primaryHover: '#4F46E5',
+    background: '#FAFAFA',
+    text: '#111827',
+  },
+  sizes: {
+    BASE: 18,
+    BUTTON_HEIGHT: 48,
+  },
+  // Optional: override shadow presets
+  shadows: {
+    md: {
+      ios: { shadowColor: '#000', shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.12, shadowRadius: 8 },
+      android: { elevation: 6 },
+      web: { boxShadow: '0px 6px 12px rgba(0,0,0,0.12)' },
+    }
   }
-});
-export default withGalio(App, styles);
+};
 ```
 
-### 3. Theme COLORS & SIZES
+2. Provide it to `GalioProvider` at the root of your app:
 
-Use the following reference tables to create your own custom theme
+```tsx
+import { GalioProvider } from 'galio-framework';
+import { myAppTheme } from './theme';
 
-**COLORS reference table**
-
-| Color name | Default value | Description |
-|------------|---------------|-------------|
-| **SOCIAL** | | |
-| FACEBOOK | #3B5998 | For social Facebook button |
-| TWITTER | #5BC0DE | For social Twitter button |
-| DRIBBBLE | #EA4C89 | For social Dribble button |
-| **GALIO** | | |
-| THEME | #B23AFC | Theme default color |
-| PRIMARY | #B23AFC | Primary color for Buttons |
-| INFO | #1232FF | Info color for Buttons & Text |
-| ERROR | #FE2472 | Error color for error messages |
-| WARNING | #FF9C09 | Warning color for warning messages |
-| SUCCESS | #45DF31 | Success color for success messages |
-| **COMPONENTS** | | |
-| INPUT | #808080 | Input backgroundColor |
-| PLACEHOLDER | #9FA5AA | Input placeholder text color |
-| NAVBAR | #F9F9F9 | NavBar text color |
-| BLOCK | #808080 | Block border color |
-| ICON | #000000 | Icon default color |
-| **STANDARD** | | |
-| WHITE | #FFFFFF | White color |
-| BLACK | #000000 | Black color |
-| GREY | #898989 | Grey color |
-| MUTED | #9FA5AA | Text muted color |
-| TRANSPARENT | transparent | Transparent value for Block, Button and other components |
-| NEUTRAL | rgba(255,255,255, 0.65) | Text neutral color white with 65% transparency |
-
-### SIZES reference table
-
-```jsx
-const { height, width } = Dimensions.get('screen');
+export default function App() {
+  return (
+    <GalioProvider theme={myAppTheme}>
+      <YourApp />
+    </GalioProvider>
+  );
+}
 ```
 
-By default the size of 16 is used to calculate all the sizes
+3. Use tokens via `useColors()` or `useTheme()` in components. Example:
 
-| Size name | Default value |
-|-----------|---------------|
-| **THEME** | |
-| BASE | 16 |
-| FONT | 16 |
-| ICON | 16 |
-| OPACITY | 0.8 |
-| BORDER_RADIUS | 6 |
-| BORDER_WIDTH | 0.8 |
-| **BUTTON** | |
-| BUTTON_WIDTH | 16 * 9 |
-| BUTTON_HEIGHT | 16 * 2.75 |
-| BUTTON_SHADOW_RADIUS | 10 |
-| **BLOCK** | |
-| BLOCK_SHADOW_OPACITY | 0.15 |
-| BLOCK_SHADOW_RADIUS | 8 |
-| ANDROID_ELEVATION | 1 |
-| **CARD** | |
-| CARD_BORDER_RADIUS | 16 * 0.4 |
-| CARD_BORDER_WIDTH | 16 * 0.05 |
-| CARD_WIDTH | width - (16 * 2) |
-| CARD_MARGIN_VERTICAL | 16 * 0.875 |
-| CARD_FOOTER_HORIZONTAL | 16 * 0.75 |
-| CARD_FOOTER_VERTICAL | 16 * 0.75 |
-| CARD_AVATAR_WIDTH | 16 * 2.5 |
-| CARD_AVATAR_HEIGHT | 16 * 2.5 |
-| CARD_AVATAR_RADIUS | 16 * 1.25 |
-| CARD_IMAGE_HEIGHT | 16 * 12.5 |
-| CARD_ROUND | 16 * 0.1875 |
-| CARD_ROUNDED | 16 * 0.5 |
-| **INPUT** | |
-| INPUT_BORDER_RADIUS | 16 * 0.5 |
+```tsx
+import { useColors } from 'galio-framework';
+
+function Header() {
+  const colors = useColors();
+  return <View style={{ backgroundColor: colors.primary }} />;
+}
+```
+
+
+## Migration notes (short)
+
+- Legacy keys (`COLORS`, `SIZES`, `LIGHT_MODE`, `DARK_MODE`) are still exported for compatibility but are deprecated. Prefer `colors`, `sizes`, and `shadows`.
+- Use `useColors()` instead of `useThemeColors()` and `useTheme()` instead of `useGalioTheme()`.
+- `GalioProvider` accepts both new and legacy theme shapes and will warn when legacy keys are detected.
+
+## Developer tips
+
+- Override only brand tokens — the provider deep-merges your values with safe defaults.
+- Prefer semantic color names (`primary`, `success`, `error`) rather than raw hex strings across your app for consistent light/dark behavior.
+- For responsive `sizes`, compute `cardWidth` / `buttonWidth` in your app and pass them via `theme.sizes` or directly as props to components.
