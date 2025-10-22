@@ -23,7 +23,7 @@ We all need a slider in our application. This is a JavaScript component built wi
 Imports:
 
 ```jsx
-import { Slider, Block } from 'galio-framework';
+import { Slider } from 'galio-framework';
 ```
 
 Simple example:
@@ -41,16 +41,15 @@ Simple example:
 Modern usage with hooks:
 
 ```jsx
-const [sliderValue, setSliderValue] = useState(10);
+const [sliderValue, setSliderValue] = useState(0.5);
 
 <Slider
   value={sliderValue}
   onValueChange={setSliderValue}
   minimumValue={0}
-  maximumValue={100}
-  step={1}
+  maximumValue={1}
+  step={0.01}
   activeColor="primary"
-  trackColor="grey"
 />
 ```
 
@@ -58,16 +57,14 @@ const [sliderValue, setSliderValue] = useState(10);
 
 | Prop             | Type      | Default                        | Description                                                                                      |
 | ---------------- | --------- | ------------------------------ | ------------------------------------------------------------------------------------------------ |
-| **value**        | number    | `0`                            | The current value of the slider                                                                  |
+| **value**        | number    | `0`                            | The current value of the slider (controlled)                                                    |
 | **onValueChange**| function  | null                           | Callback when slider value changes                                                               |
-| **onSlidingComplete** | function | null                      | Callback when sliding is complete                                                                |
-| **activeColor**  | string    | `GalioTheme.COLORS.PRIMARY`    | Active track color                                                                               |
-| **trackColor**   | string    | `GalioTheme.COLORS.GREY`       | Inactive track color                                                                             |
-| **thumbColor**   | string    | `GalioTheme.COLORS.PRIMARY`    | Thumb color                                                                                      |
-| **disabled**     | bool      | `false`                        | Disables the slider                                                                              |
 | **minimumValue** | number    | `0`                            | Minimum slider value                                                                             |
-| **maximumValue** | number    | `100`                          | Maximum slider value                                                                             |
-| **step**         | number    | `1`                            | Step increment value                                                                             |
+| **maximumValue** | number    | `1`                            | Maximum slider value                                                                             |
+| **step**         | number    | `0.01`                         | Step increment value                                                                             |
+| **disabled**     | bool      | `false`                        | Disables the slider                                                                              |
 | **trackStyle**   | object    | `{}`                           | Custom track styles                                                                              |
 | **thumbStyle**   | object    | `{}`                           | Custom thumb styles                                                                              |
-| **style**        | object    | `{}`                           | Custom container styles                                                                          |
+| **containerStyle** | object  | `{}`                           | Container style                                                                                  |
+| **activeColor**  | string    | `primary`                      | Active track color (theme key or hex)                                                            |
+| **accessibilityLabel** | string | null                        | Accessibility label                                                                               |
