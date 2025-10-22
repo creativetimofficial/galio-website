@@ -12,7 +12,7 @@ import CarbonAds from '@site/src/components/CarbonAds';
 
 # React Native Input Component
 
-Built on top of React Native's TextInput component, this basic component which allows the user to enter text was styled based on Galio's own identity theme.
+Built on top of React Native's TextInput component, this Input offers theme-aware colors, optional icons, password visibility toggle, and helper text.
 
 <CarbonAds serve="CE7IPK3L" placement="galioio" />
 
@@ -23,54 +23,38 @@ Built on top of React Native's TextInput component, this basic component which a
 Imports:
 
 ```jsx
-import { Input, Block } from 'galio-framework';
+import { Input } from 'galio-framework';
 ```
 
 Basic examples:
 
 ```jsx
 <Input placeholder="regular" />
-<Input placeholder="theme" color={theme.COLORS.THEME} style={{ borderColor: theme.COLORS.THEME }} placeholderTextColor={theme.COLORS.THEME} />
-<Input placeholder="info" color={theme.COLORS.INFO} style={{ borderColor: theme.COLORS.INFO }} placeholderTextColor={theme.COLORS.INFO}/>
-<Input placeholder="warning" color={theme.COLORS.WARNING} style={{ borderColor: theme.COLORS.WARNING }} placeholderTextColor={theme.COLORS.WARNING}/>
-<Input placeholder="error" color={theme.COLORS.ERROR} style={{ borderColor: theme.COLORS.ERROR }} placeholderTextColor={theme.COLORS.ERROR}/>
-<Input placeholder="success" color={theme.COLORS.SUCCESS} style={{ borderColor: theme.COLORS.SUCCESS }} placeholderTextColor={theme.COLORS.SUCCESS}/>
+<Input placeholder="primary" color="primary" />
+<Input placeholder="with icon" icon="search" iconFamily="feather" right />
+<Input placeholder="password" password viewPass />
 ```
 
 Advanced examples:
 
 ```jsx
-<Input placeholder="password" password viewPass />
 <Input placeholder="rounded input" rounded />
+
 <Input
   placeholder="Input with Icon on right"
   right
   icon="heart"
   iconFamily="antdesign"
   iconSize={14}
-  iconColor="red"
+  iconProps={{ color: 'red' }}
 />
+
 <Input
   placeholder="Input with custom styling and help"
-  style={{ borderColor: "red" }}
+  style={{ borderColor: '#E53935' }}
   help="Bottom help text"
   bottomHelp
   placeholderTextColor="#4F8EC9"
-/>
-```
-
-Modern usage with hooks:
-
-```jsx
-const [value, setValue] = useState('');
-
-<Input
-  value={value}
-  onChangeText={setValue}
-  placeholder="Controlled input"
-  color="primary"
-  rounded
-  shadowless
 />
 ```
 
@@ -80,26 +64,25 @@ const [value, setValue] = useState('');
 |--------------------------|---------|--------------------------------|-----------------------------------------------------------------------------|
 | **value**                | string  | null                           | The input value (controlled component)                                     |
 | **onChangeText**         | function| null                           | Callback when text changes                                                 |
-| **type**                 | string  | `'default'`                    | Keyboard type. Options: `'default'`, `'number-pad'`, `'decimal-pad'`, `'numeric'`, `'email-address'`, `'phone-pad'` |
-| **password**             | bool    | false                          | Password input with secure text entry                                     |
-| **placeholderTextColor** | string  | `theme.COLORS.PLACEHOLDER`     | Placeholder text color                                                     |
-| **label**                | string  | null                           | Input label                                                                |
-| **bgColor**              | string  | null                           | Background color                                                           |
-| **rounded**              | bool    | false                          | Rounded corners                                                            |
-| **borderless**           | bool    | false                          | Removes border                                                             |
-| **viewPass**             | bool    | false                          | Password visibility toggle                                                 |
-| **icon**                 | string  | null                           | Icon name from Expo's icon library                                        |
-| **iconColor**            | string  | null                           | Icon color                                                                |
-| **iconFamily**           | string  | null                           | Icon family from Expo's icon library                                      |
-| **iconSize**             | number  | 14                             | Icon size                                                                 |
-| **color**                | string  | null                           | Text color                                                                |
-| **help**                 | string  | null                           | Helper text                                                               |
-| **left**                 | bool    | true                           | Icon on the left                                                          |
-| **right**                | bool    | false                          | Icon on the right                                                         |
-| **topHelp**              | bool    | true                           | Helper above input                                                        |
-| **bottomHelp**           | bool    | false                          | Helper below input                                                        |
-| **style**                | object  | null                           | Custom styles                                                             |
-| **inputStyle**           | object  | null                           | Custom input styles                                                       |
-| **labelStyle**           | object  | null                           | Custom label styles                                                       |
-| **helpStyle**            | object  | null                           | Custom help text styles                                                   |
-| **...TextInput.props**   | -       | -                              | All TextInput props are supported                                         |
+| **type**                 | string  | `'default'`                    | Keyboard type (maps to RN `keyboardType`)                                  |
+| **password**             | bool    | false                          | Password input with secure text entry                                      |
+| **placeholderTextColor** | string  | `colors.placeholder`           | Placeholder text color                                                      |
+| **label**                | string  | null                           | Input label                                                                 |
+| **bgColor**              | string  | null                           | Background color (accepts theme keys)                                      |
+| **rounded**              | bool    | false                          | Rounded corners                                                             |
+| **borderless**           | bool    | false                          | Removes border                                                              |
+| **viewPass**             | bool    | false                          | Password visibility toggle                                                   |
+| **icon**                 | string  | null                           | Icon name                                                                 |
+| **iconProps**            | object  | {}                             | Icon customization object (color, size, family, style)                      |
+| **left**                 | bool    | true                           | Icon on the left                                                            |
+| **right**                | bool    | false                          | Icon on the right                                                           |
+| **error**                | bool    | false                          | Shows error border/color                                                    |
+| **help**                 | string  | null                           | Helper text                                                                 |
+| **topHelp**              | bool    | true                           | Helper above input                                                          |
+| **bottomHelp**           | bool    | false                          | Helper below input                                                          |
+| **style**                | object  | null                           | Custom container styles                                                     |
+| **textInputStyle**       | object  | null                           | Custom TextInput styles                                                     |
+| **labelStyles**          | object  | null                           | Custom label styles                                                         |
+| **helpStyles**           | object  | null                           | Custom help styles                                                          |
+| **onRef**                | function| null                           | Access to underlying TextInput ref                                          |
+| **...TextInput.props**   | -       | -                              | All TextInput props are supported                                           |
