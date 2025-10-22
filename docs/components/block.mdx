@@ -1,9 +1,13 @@
 ---
 title: "Block"
-description: "Learn how to use the Block component in your React Native applications with Galio Framework."
+description: "Block component (layout, flexbox, grid-like helpers) for building responsive React Native screens with Galio Framework. Examples, props, accessibility and best practices."
 keywords: [
   "Block",
-  "Block - Documentation"
+  "Layout component",
+  "React Native layout",
+  "Galio Block",
+  "flexbox helper",
+  "responsive layout"
 ]
 source_url: "/docs/components/block"
 ---
@@ -12,65 +16,129 @@ import CarbonAds from '@site/src/components/CarbonAds';
 
 # React Native Block Component
 
-This component is the main component block used to build everything in Galio and any type of layout. There are so many props available for easier access to different styling options that you'll rarely write another style prop.
+React Native `Block` is the foundational layout component in the Galio Framework. It wraps a React Native `View` (or `SafeAreaView`) and exposes convenient props to compose responsive layouts, control spacing and alignment, and apply common visual treatments (cards, shadows, backgrounds) without custom style objects.
+
+This page shows practical patterns (rows, cards, lists), performance tips for mobile, accessibility notes, and a complete props reference.
 
 <CarbonAds serve="CE7IPK3L" placement="galioio" />
 
-### Usage
+## Why use `Block` for layout
 
-Imports:
+- Accelerates layout construction by exposing common patterns (row, space, center, flex) as props.
+- Keeps code readable and consistent with your design system.
+- Integrates with the theme (semantic shadows, card radii, sizes) so UI stays cohesive across the app.
+- Supports `SafeAreaView` via the `safe` prop for notch-aware layouts.
+
+## Quick import
 
 ```jsx
 import { Block } from 'galio-framework';
 ```
 
-Simple example:
+## Simple examples
 
 ```jsx
-<Block>{children}</Block>
-```
-
-Advanced examples:
-
-```jsx
-<Block 
-  flex 
-  row 
-  space="between" 
-  style={{ padding: 20 }}
->
-  <Text>Left content</Text>
-  <Text>Right content</Text>
+// Row with space between
+<Block row space="between" style={{ padding: 12 }}>
+  <Text>Left</Text>
+  <Text>Right</Text>
 </Block>
 
-<Block 
-  card 
-  shadow 
-  style={{ margin: 10 }}
->
+// Centered full-screen container
+<Block flex middle center>
+  <Text h3>Welcome</Text>
+</Block>
+
+// Card-like block
+<Block card shadow='md' style={{ margin: 8, padding: 12 }}>
   <Text>Card content</Text>
 </Block>
 ```
 
-### Props
+## Common layout patterns
 
-| Prop          | Type         | Default | Description                                        |
-| ------------- | ------------ | ------- | -------------------------------------------------- |
-| **children**  | node         | null    | Block content                                      |
-| **bottom**    | bool         | false   | alignItems: 'flex-end' alignSelf: 'flex-end'       |
-| **card**      | bool         | false   | Changes the View's border-radius, -width and -color|
-| **center**    | bool         | false   | alignItems: 'center' alignSelf: 'center'           |
-| **flex**      | bool, number | false   | flex: 1 or custom flex value                       |
-| **fluid**     | bool         | false   | width: 'auto'                                      |
-| **height**    | number       | null    | Changes the height of the Block                    |
-| **left**      | bool         | false   | alignItems: 'flex-start'                           |
-| **middle**    | bool         | false   | alignItems: 'center' alignSelf: 'center'           |
-| **right**     | bool         | false   | alignItems: 'flex-end'                             |
-| **row**       | bool         | false   | flexDirection: 'row'                               |
-| **safe**      | bool         | false   | Wraps the Block with a SafeAreaView                |
-| **shadow**    | bool         | false   | Adds shadow on the Block                           |
-| **shadowColor**| string      | null    | Changes the shadow's color                         |
-| **space**     | string       | null    | Options: 'between', 'around' or 'evenly'          |
-| **style**     | object       | null    | Custom styles                                      |
-| **width**     | number       | null    | Changes the width of the Block                     |
-| **...View.props** | -      | -       | All React Native View props are supported         |
+### Two-column layout
+
+```jsx
+<Block row>
+  <Block flex={1} style={{ paddingRight: 8 }}>
+    <Text>Column A</Text>
+  </Block>
+  <Block flex={1} style={{ paddingLeft: 8 }}>
+    <Text>Column B</Text>
+  </Block>
+</Block>
+```
+
+### Header + content + footer
+
+```jsx
+<Block safe>
+  <Block style={{ height: 56 }}> {/* header */}</Block>
+  <Block flex>{/* main content */}</Block>
+  <Block style={{ height: 72 }}>{/* footer */}</Block>
+</Block>
+```
+
+### Responsive card grid (concept)
+
+Use `width` and `flex` together to build grids that adapt to available space.
+
+```jsx
+<Block row wrap>
+  {items.map(item => (
+    <Block key={item.id} style={{ width: 160, margin: 8 }}>
+      <Card ... />
+    </Block>
+  ))}
+</Block>
+```
+
+## Performance & best practices
+
+- Avoid deep nesting of many `Block` components inside large, scrollable lists — prefer flatter hierarchies for large lists to reduce layout cost.
+- Keep `style` overrides minimal when rendering many items (reuse StyleSheet objects rather than inline styles) to reduce GC churn.
+- Use `card` and semantic `shadow` values for occasional emphasis; heavy shadows on many items can hurt rendering performance on Android/iOS.
+- When using `SafeAreaView` (`safe` prop) keep only top-level screens as safe containers rather than applying it deeply.
+
+## Accessibility
+
+- `Block` renders a `View` (or `SafeAreaView`) and does not introduce keyboard or focus traps by default.
+- If a `Block` is interactive (wrapped in Pressable/Touchable), set proper `accessibilityRole` and `accessibilityLabel` on the interactive wrapper.
+- Use `role` and `aria-*` equivalents via accessibility props when integrating with web (React Native Web).
+
+## Props
+
+Block is a utility layout component that composes common View patterns. Key props are listed below.
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `row` | boolean | false | Use horizontal layout (flexDirection: 'row').
+| `flex` | boolean \| number | false | Enable flex (true => flex: 1) or set a numeric flex value.
+| `center` | boolean | false | Align children horizontally to center and center self.
+| `middle` | boolean | false | Center children both vertically and horizontally.
+| `top` | boolean | false | Align items to the top (flex-start).
+| `bottom` | boolean | false | Align items to the bottom (flex-end).
+| `left` | boolean | false | Align items to the left (flex-start).
+| `right` | boolean | false | Align items to the right (flex-end).
+| `space` | string | undefined | Space distribution utilities: 'between', 'around', 'evenly'.
+| `fluid` | boolean | false | Use auto width (fluid layout).
+| `height` | number | undefined | Explicit height in pixels.
+| `width` | number | undefined | Explicit width in pixels.
+| `safe` | boolean | false | Use `SafeAreaView` as the container for safe-area support.
+| `card` | boolean | false | Apply card styling (border, radius).
+| `shadow` | 'none'\| 'xs'\| 'sm'\| 'md'\| 'lg'\| 'xl' \| boolean | undefined | Semantic shadow level or boolean (legacy). Prefer semantic shadow keys.
+| `shadowColor` | string | undefined | Override the shadow color.
+| `background` | string | undefined | Background color (theme key or raw color string).
+| `style` | object | undefined | Custom style object applied to the container.
+| `children` | ReactNode | — | Child elements rendered inside Block.
+
+
+## Migration notes
+
+- The `shadow` prop historically accepted `true/false` — prefer semantic values (`xs`, `sm`, `md`, `lg`, `xl`) for consistent cross-platform results.
+- `flex` can be a boolean (legacy default to `1`) or a numeric flex value; explicit numbers provide clearer layout control.
+
+---
+
+If you want this page split into "Layout props" and "Visual props", or prefer small inline examples next to each prop, I can update the layout accordingly. What format do you prefer?
