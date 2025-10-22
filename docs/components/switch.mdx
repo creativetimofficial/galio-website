@@ -26,16 +26,7 @@ Imports:
 import { Switch } from 'galio-framework';
 ```
 
-Simple example:
-
-```jsx
-<Switch
-  value={this.state["switch-1"]}
-  onValueChange={() => this.toggleSwitch("switch-1")}
-/>
-```
-
-Modern usage with hooks:
+Simple example (controlled):
 
 ```jsx
 const [isEnabled, setIsEnabled] = useState(false);
@@ -48,15 +39,21 @@ const [isEnabled, setIsEnabled] = useState(false);
 />
 ```
 
+Uncontrolled (legacy):
+
+```jsx
+<Switch initialValue={true} />
+```
+
 ### Props
 
 | Prop                | Type                                                                              | Default                                                                         | Description                                                                                       |
 | ------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| **value**           | bool                                                                              | false                                                                           | The switch value                                                                                  |
-| **onValueChange**   | function                                                                          | null                                                                            | Callback when switch value changes                                                                |
+| **value**           | bool                                                                              | false                                                                           | The switch value (controlled mode)                                                                 |
+| **onValueChange**   | function                                                                          | null                                                                            | Callback when switch value changes (required in controlled mode)                                  |
 | **color**           | oneOfType(['primary', 'theme', 'error', 'warning', 'success', 'info']), string    | `GalioTheme.COLORS.PRIMARY`                                                       | Switch color                                                                                      |
 | **disabled**        | bool                                                                              | false                                                                           | Disables the switch                                                                               |
-| **initialValue**    | bool                                                                              | false                                                                           | Initial switch value                                                                              |
+| **initialValue**    | bool                                                                              | false                                                                           | Initial switch value (uncontrolled mode)                                                          |
 | **style**           | object                                                                            | null                                                                            | Custom styles                                                                                     |
 | **trackColor**      | object                                                                            | null                                                                            | Track colors for on/off states                                                                    |
 | **thumbColor**      | string                                                                            | null                                                                            | Thumb color                                                                                       |
