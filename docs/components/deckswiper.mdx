@@ -36,49 +36,64 @@ The elements array looks like following:
 
 ```jsx
 const elements = [
-  <View style={{ backgroundColor: '#B23AFC', height: 250, width: 250 }}>
+  <Block style={{ backgroundColor: '#B23AFC', height: 250, width: 250 }}>
     <Text>You wanna see a cool component?</Text>
     <Text>Galio has this cool Deck Swiper</Text>
-  </View>,
-  <View style={{ backgroundColor: '#FE2472', height: 250, width: 250 }}>
+  </Block>,
+  <Block style={{ backgroundColor: '#FE2472', height: 250, width: 250 }}>
     <Text>What did you expect?</Text>
     <Text>This React Native component works perfectly</Text>
-  </View>,
-  <View style={{ backgroundColor: '#FF9C09', height: 250, width: 250 }}>
+  </Block>,
+  <Block style={{ backgroundColor: '#FF9C09', height: 250, width: 250 }}>
     <Text>Maybe you want to build the next Tinder</Text>
-  </View>,
-  <View style={{ backgroundColor: '#45DF31', height: 250, width: 250 }}>
+  </Block>,
+  <Block style={{ backgroundColor: '#45DF31', height: 250, width: 250 }}>
     <Text>or maybe you just want a nice deck swiper component</Text>
     <Text>Galio has everything sorted out for you</Text>
-  </View>
+  </Block>
 ];
 ```
 
 Advanced examples:
 
 ```jsx
+
 <DeckSwiper
   components={elements}
   onSwipeLeft={(index) => console.log('Swiped left on:', index)}
   onSwipeRight={(index) => console.log('Swiped right on:', index)}
-  onSwipeAll={(direction) => console.log('All cards swiped:', direction)}
   style={{ height: 300 }}
-  cardStyle={{ borderRadius: 16 }}
-  cardElevation={8}
+  cardContainerStyle={{ borderRadius: 16 }}
+  cardShadow="md"
+  cardWidth={300}
+  cardBackgroundColor="#fff"
+  nextCardBackgroundColor="#f7f7f7"
+  nextCardShadow="sm"
+  focusedElementStyle={{ elevation: 6 }}
+  nextElementStyle={{ transform: [{ scale: 0.95 }] }}
+  borderRadius={16}
+  showNextCard={true}
 />
 ```
 
 ### Props
 
-| Prop                   | Type     | Default   | Description                                                                 |
-|------------------------|----------|-----------|-----------------------------------------------------------------------------|
-| **components**         | array    | null      | Array of components to render in the deck                                  |
-| **onSwipeLeft**        | function | ()=>{}    | Callback when swiping left                                                 |
-| **onSwipeRight**       | function | ()=>{}    | Callback when swiping right                                                |
-| **onSwipeAll**         | function | ()=>{}    | Callback when all cards are swiped                                         |
-| **style**              | object   | null      | Container styles                                                            |
-| **cardStyle**          | object   | null      | Individual card styles                                                      |
-| **cardElevation**      | number   | 4         | Card elevation/shadow                                                       |
-| **swipeThreshold**     | number   | 120       | Distance required to trigger swipe                                         |
-| **animationDuration**  | number   | 300       | Animation duration in milliseconds                                         |
-| **...View.props**      | -        | -         | All React Native View props are supported                                  |
+| Prop                   | Type                       | Default                         | Description                                                                 |
+|------------------------|----------------------------|---------------------------------|-----------------------------------------------------------------------------|
+| **components**         | `React.ReactNode[]`       | required                        | Array of components to render in the deck                                   |
+| **onSwipeLeft**        | `(index: number) => void` | `() => {}`                      | Callback when swiping left (receives the card index)                       |
+| **onSwipeRight**       | `(index: number) => void` | `() => {}`                      | Callback when swiping right (receives the card index)                      |
+| **style**              | `object` / `StyleProp<ViewStyle>` | `null`                 | Container styles                                                            |
+| **cardContainerStyle** | `object` / `StyleProp<ViewStyle>` | `null`                 | Styles applied to the focused card container                                |
+| **cardWidth**          | `number`                   | `SCREEN_WIDTH * 0.7`            | Card width in pixels                                                        |
+| **cardShadow**         | `string` / `object`   | `'md'`                          | Theme shadow key (e.g. `sm`, `md`, `lg`) or a shadow style object for the focused card |
+| **cardBackgroundColor**| `string`                   | `theme.surface` / `'#fff'`      | Background color of the focused card                                        |
+| **nextCardBackgroundColor** | `string`            | `theme.background` / `'#f7f7f7'`| Background color for the next card preview                                  |
+| **nextCardShadow**     | `string` / `object`   | `'sm'`                          | Theme shadow key or style object for the next card                          |
+| **swipeThreshold**     | `number`                   | `110`                           | Distance required to trigger a swipe                                        |
+| **focusedElementStyle**| `object` / `StyleProp<ViewStyle>` | `{}`                  | Additional styles for the focused (top) card                               |
+| **nextElementStyle**   | `object` / `StyleProp<ViewStyle>` | `{}`                  | Styles for the next card preview                                            |
+| **borderRadius**       | `number`                   | `theme.sizes.CARD_BORDER_RADIUS`| Card border radius                                                          |
+| **showNextCard**       | `boolean`                  | `true`                          | Whether to render the next card peek                                        |
+| **...View.props**      | -                          | -                               | All React Native `View` props are supported                                 |
+
