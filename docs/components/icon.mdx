@@ -7,59 +7,114 @@ keywords: [
 ]
 source_url: "/docs/components/icon"
 ---
+
 import CarbonAds from '@site/src/components/CarbonAds';
 
 # React Native Icon Component
 
-Icons are used as a visual indicator to describe an action the user could take. That little Facebook icon never looked better.
+The `Icon` component is a small wrapper that unifies multiple icon libraries (Galio's IcoMoon set, Fontisto and the common vector icon families).
 
 <CarbonAds serve="CE7IPK3L" placement="galioio" />
 
-### Usage
-
-Imports:
+## Quick examples
 
 ```jsx
 import { Icon } from 'galio-framework';
+
+// Using the custom Galio icon set (IcoMoon + embedded font)
+<Icon name="pin-3" family="Galio" size="md" color="primary" />
+
+// Using a popular vector icon family from react-native-vector-icons
+<Icon name="heart" family="antdesign" size={20} color="#E53935" />
+
+// Using semantic size keywords
+<Icon name="star" family="antdesign" size="lg" color="warning" />
+
+// Passing extra props (testID, accessibility, etc.)
+<Icon name="menu" family="feather" size="sm" color="text" testID="menu-icon" />
 ```
 
-Simple example:
+## Props (developer reference)
 
-```jsx
-<Icon name="pin-3" family="Galio" color={rgb(100,120,40)} size={10} />
+```ts
+export interface IconProps {
+  name: string;
+  family: string;
+  size?: number | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  color?: string; // color string or theme key
+  style?: any;
+  [key: string]: any;
+}
 ```
 
-Advanced examples:
+| Prop   | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `name` | string | — | Icon name in the chosen family (required) |
+| `family` | string | — | Icon family (e.g. `Galio`, `antdesign`, `feather`, `fontisto`) |
+| `size` | number \| semantic | `theme.sizes.ICON` | Numeric size in px or semantic sizes: `xs`, `sm`, `md`, `lg`, `xl` (mapped via theme) |
+| `color` | string | `theme.colors.text` | Theme color key or raw color string (hex, rgba) |
+| `style` | object | — | Extra style object passed to the underlying icon component |
+| `...rest` | any | — | Additional props forwarded to the underlying icon instance (accessibility props, testID, etc.) |
 
-```jsx
-<Icon 
-  name="heart" 
-  family="antdesign" 
-  color="red" 
-  size={24}
-  style={{ marginRight: 8 }}
-/>
+### Notes
 
-<Icon 
-  name="check-circle" 
-  family="feather" 
-  color="success" 
-  size={20}
-  onPress={() => console.log('Icon pressed')}
-/>
-```
+- If `family` is `Galio` the project loads the custom Galio icon font (`galio.ttf`) based on the IcoMoon config.
+- The `color` prop accepts theme color keys. If omitted, `colors.text` from the theme is used.
+- The component memoizes output for performance.
 
-### Props
-
-| Prop       | Type     | Default              | Description                                                                 |
-|------------|----------|----------------------|-----------------------------------------------------------------------------|
-| **name**   | string   | null                 | Icon name from Expo's icon library                                         |
-| **family** | string   | null                 | Icon family from Expo's icon library                                       |
-| **size**   | number   | `theme.SIZES.BASE`   | Icon size                                                                  |
-| **color**  | string   | `theme.COLORS.BLACK` | Icon color                                                                 |
-| **style**  | object   | null                 | Custom styles                                                              |
-| **onPress**| function | null                 | Press handler function                                                     |
-| **...TouchableOpacity.props** | - | - | All TouchableOpacity props are supported when onPress is provided |
+***
 
 We're grateful to use the icon sets from **react-native-vector-icons**.  
-You can find the full list of icons they've prepared for React Native [here](https://oblador.github.io/react-native-vector-icons/).
+You can find the full list of available families and glyphs here: https://oblador.github.io/react-native-vector-icons/
+
+## Behavior and implementation notes
+
+- Size mapping: the component maps semantic size keywords to theme sizes (see `src/Icon.tsx`). The default mapping uses `theme.sizes` values for `xs`, `sm`, `md`, `lg`, `xl`. If a numeric `size` is passed, it is used directly.
+- Color resolution: if the `color` value matches a key on `theme.colors`, the theme color is used; otherwise the raw color string is applied. When omitted the icon falls back to `colors.text` from the theme.
+- Family resolution: `family === 'Galio'` uses a custom IcoMoon-generated font plus `galio.ttf`. Other families are resolved via a helper (`getIconType`) that returns the correct vector icon component from `react-native-vector-icons`.
+- Memoization: the exported component is wrapped with `React.memo` to reduce re-renders when props are stable.
+
+## Developer Guide
+
+### Contract (inputs / outputs)
+- Inputs: `name`, `family`, optional `size`, `color`, `style`, and forwarded props.
+- Outputs: a rendered icon component (native element) or `null` when no matching icon is found.
+- Error modes: passing an unknown `family` or `name` will return `null` (icon not rendered). Prefer guarding unknown names or providing fallbacks.
+
+### Size mapping (implementation)
+The `src/Icon.tsx` file defines a `sizeMap` that reads semantic constants from your theme. Example mapping (conceptual):
+
+```js
+const sizeMap = {
+  xs: theme.sizes.SMALL,
+  sm: theme.sizes.ICON,
+  md: theme.sizes.ICON_MEDIUM,
+  lg: theme.sizes.ICON_LARGE,
+  xl: theme.sizes.ICON_LARGE * 1.5,
+}
+```
+
+Use numeric sizes for precise control, or semantic sizes to stay consistent with your theme.
+
+### Extending or adding families
+- `getIconType(family)` centralizes family → component resolution. To support a new icon family, update `src/helpers/getIconType.tsx` to return the proper component (e.g., `import { MaterialIcons } from '@react-native-vector-icons/material-icons'`).
+- The `Galio` family is created from an IcoMoon config (`src/config/galio.json`) and the bundled `src/fonts/galio.ttf` using `createIconSetFromIcoMoon`.
+
+### Theming and fonts
+- If you add or modify the Galio IcoMoon set, regenerate the `galio.json` IcoMoon config and include the updated `galio.ttf` in `src/fonts`.
+- Color props accept theme keys; updating `theme.colors` will immediately affect icons that use semantic color names.
+
+### Accessibility
+- Icons are decorative by default. If an icon conveys meaning (e.g., a button icon), provide `accessibilityLabel` and `accessibilityRole` via forwarded props.
+- Example: `<Icon name="close" family="antdesign" accessibilityLabel="Close dialog" />`.
+
+### Performance and testing
+- The component is memoized. For dynamic lists of icons, prefer stable props (avoid inline object literals for `style` to reduce re-renders).
+- Unit test: render with a known family and name and assert the underlying icon component is present. Integration test: verify accessibility props are passed through.
+
+## Notes & resources
+
+- The project uses `react-native-vector-icons` under the hood. Full family and glyph lists: https://oblador.github.io/react-native-vector-icons/
+- Galio IcoMoon config: `src/config/galio.json`; font: `src/fonts/galio.ttf`.
+
+***
