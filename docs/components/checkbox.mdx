@@ -42,23 +42,25 @@ Advanced examples:
 
 ```jsx
 <Checkbox color="primary" flexDirection="row-reverse" label="row-reverse checkbox" />
-<Checkbox color="info" initialValue={true} label="initialValue set to true" />
-<Checkbox color="error" initialValue={true} label="different icon" iconFamily="font-awesome" iconName="plane" />
+{/* Controlled example (preferred) */}
+<Checkbox color="info" checked={true} label="Checked (controlled)" />
+{/* Custom icon using iconProps (recommended) */}
+<Checkbox color="error" checked={true} label="custom icon" iconProps={{ family: 'FontAwesome', name: 'plane' }} />
 <Checkbox color="warning" labelStyle={{ color: '#FF9C09' }} label="labelStyle used here" />
-<Checkbox color="success" image="https://images.unsplash.com/photo-1569780655478-ecffea4c165c?ixlib=rb-1.2.1" flexDirection="column-reverse"/>
+<Checkbox color="success" image="https://images.unsplash.com/photo-1569780655478-ecffea4c165c?ixlib=rb-1.2.1" flexDirection="column-reverse" />
 ```
 
-Modern usage with hooks:
+Modern usage with hooks (controlled):
 
 ```jsx
 const [isChecked, setIsChecked] = useState(false);
 
-<Checkbox 
-  color="warning" 
-  value={isChecked}
-  onChange={setIsChecked} 
-  label="onChange is here" 
-/>
+<Checkbox
+  color="warning"
+  checked={isChecked}
+  onChange={setIsChecked}
+  label="onChange is here"
+ />
 ```
 
 ### Props
@@ -66,17 +68,19 @@ const [isChecked, setIsChecked] = useState(false);
 | Prop              | Type    | Default       | Description                                                                                           |
 | ----------------- | ------- | ------------- | ----------------------------------------------------------------------------------------------------- |
 | **label**         | string  | null          | Checkbox label text                                                                                   |
-| **color**         | string  | 'primary'     | Checkbox color                                                                                        |
-| **value**         | bool    | false         | Controlled checkbox value                                                                             |
-| **onChange**      | function| null          | Callback when checkbox state changes                                                                  |
-| **initialValue**  | bool    | false         | Initial checkbox value                                                                                |
+| **color**         | string  | 'primary'     | Checkbox color (theme key or hex string)                                                              |
+| **checked**       | bool    | false         | Controlled checkbox value (use this for controlled components)                                        |
+| **onChange**      | function| null          | Callback when checkbox state changes; receives the new checked state (boolean)                        |
+| **initialValue**  | bool    | false         | (Deprecated) Initial uncontrolled checkbox value — prefer using controlled `checked` or `iconProps`   |
 | **disabled**      | bool    | false         | Disables the checkbox                                                                                 |
 | **flexDirection** | string  | 'row'         | Layout direction: 'row', 'row-reverse', 'column', 'column-reverse'                                    |
-| **iconName**      | string  | null          | Custom icon name                                                                                      |
-| **iconFamily**    | string  | null          | Custom icon family                                                                                    |
+| **iconProps**     | object  | null          | Icon customization object — fields: `name`, `family`, `color`, `size` (recommended over individual icon props) |
 | **image**         | string  | null          | Custom image URL                                                                                      |
-| **checkboxStyle** | object  | null          | Custom checkbox styles                                                                                |
+| **imageStyle**    | object  | null          | Custom image styles                                                                                    |
+| **checkboxStyle** | object  | null          | Custom checkbox (box) styles                                                                          |
 | **labelStyle**    | object  | null          | Custom label styles                                                                                   |
-| **containerStyle**| object  | null          | Custom container styles                                                                               |
-| **style**         | object  | null          | Custom styles                                                                                         |
+| **labelColor**    | string  | null          | Color for the label (theme key or hex string)                                                        |
+| **style**         | object  | null          | Custom container styles (wrapper for checkbox + label)                                               |
+| **accessibilityLabel** | string | -        | Accessibility label for screen readers                                                                |
+| **accessibilityHint**  | string | -        | Accessibility hint for assistive technologies                                                         |
 
