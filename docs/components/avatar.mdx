@@ -1,0 +1,116 @@
+---
+title: "Avatar"
+description: "React Native Avatar component documentation: how to display user profile images, initials, sizes, shadows and accessibility best practices in Galio Framework (React Native)."
+keywords: ["Avatar","User Avatar","Profile Picture","Galio Framework","React Native Avatar","initials avatar","avatar size","avatar accessibility"]
+source_url: "/docs/components/avatar"
+---
+
+import CarbonAds from '@site/src/components/CarbonAds';
+
+# React Native Avatar
+
+The Avatar component displays a user's profile image, initials, or a fallback label. It's optimized for mobile apps built with React Native and the Galio Framework and supports semantic sizes, theme-aware colors, and platform shadows.
+
+This page explains common use-cases, SEO- and accessibility-friendly patterns, code examples, and best practices for performance and responsive design.
+
+<CarbonAds serve="CE7IPK3L" placement="galioio" />
+
+## Why use Avatar (profile images / initials)
+
+- Show user identity consistently across your app (profile lists, comment headers, messages).
+- Provide an accessible fallback when images fail (initials or text label).
+- Apply semantic sizing and shadows to match your app's design system.
+
+## Quick examples
+
+```jsx
+import { Avatar } from 'galio-framework';
+
+// Image avatar (recommended: optimized, cached image)
+<Avatar source={{ uri: 'https://i.pravatar.cc/100' }} accessibilityLabel="User avatar for John Doe" />
+
+// Initials avatar
+<Avatar label="JD" size={48} backgroundColor="#1976D2" labelColor="#fff" />
+
+// Larger avatar with shadow
+<Avatar label="AL" size={96} shadow="lg" />
+```
+
+## Props
+
+| Prop                 | Type                     | Default | Description |
+| -------------------- | ------------------------ | ------- | ----------- |
+| `source`             | ImageSource              | —       | Image source (URI or require). If provided, the image is displayed. Use optimized images for best performance.
+| `label`              | string                   | —       | Initials or text shown when no image is available. Good for fallback and accessibility.
+| `size`               | number                   | 50      | Width and height in pixels. Choose responsive sizes for different breakpoints.
+| `backgroundColor`    | string                   | theme.background | Background color for label avatars (theme key or CSS color string).
+| `labelColor`         | string                   | theme.white | Color for the label text (theme key or color string).
+| `shadow`             | 'none'\| 'xs'\| 'sm'\| 'md'\| 'lg'\| 'xl' | 'none' | Semantic shadow level that maps to theme shadows. Use sparingly for visual hierarchy.
+| `labelFontSize`      | number                   | computed | Explicit font size for label text (defaults proportionally to `size`).
+| `labelFontWeight`    | string                   | '600'   | Font weight for label text.
+| `imageProps`         | object                   | —       | Extra props forwarded to the underlying Image component (e.g., `resizeMode`).
+| `imageStyle`         | object                   | —       | Style override for the Image element.
+| `containerStyle`     | object                   | —       | Style for outer container (use for borders, margins).
+| `style`              | object                   | —       | Additional wrapper style.
+| `labelStyle`         | object                   | —       | Style for the label container.
+| `labelTextStyle`     | object                   | —       | Style for the label Text element.
+| `accessibilityLabel` | string                   | auto    | Accessibility label (screen readers). Defaults to a descriptive label when `label` is present.
+| `accessibilityHint`  | string                   | —       | Accessibility hint for screen readers.
+
+
+## Best practices
+
+- Image optimization: serve appropriately sized images (use CDN resizing or progressive images). Avoid very large images for avatars.
+- Caching: leverage image caching on the client (FastImage or platform cache) to speed up list rendering.
+- Alt text & labels: always set `accessibilityLabel` for profile images to help screen readers. When using `label` (initials), prefer two-letter initials for clarity.
+- Contrast: ensure `labelColor` contrasts with `backgroundColor` for readability.
+- Responsive sizes: use `size` values that match your design system (small lists vs profile screens).
+- Avoid heavy shadows on mobile lists to reduce overdraw—use semantic shadow levels for occasional emphasis.
+
+## Accessibility
+
+- Use `accessibilityLabel` to describe the avatar, e.g. `accessibilityLabel="Avatar: John Doe"`.
+- If the avatar is interactive (opens a profile), ensure it has an accessible press target and `accessibilityRole="button"`.
+- For purely decorative avatars, set `accessibilityRole="image"` and provide a concise `accessibilityLabel` or mark as decorative depending on the context.
+
+
+## Migration notes / Compatibility
+
+- `shadow` accepts semantic keys that map to theme shadows. Previously boolean shadows may still work but prefer the new semantic values (`xs`, `sm`, `md`, `lg`, `xl`).
+- `labelFontSize` is optional; the component computes a readable size based on `size` when omitted.
+
+## FAQ
+
+Q: Should I always provide a `source` image?
+
+A: No — provide `label` (initials) as a fallback to ensure accessibility and consistent UX when images fail or are loading.
+
+Q: How to make avatar clickable?
+
+A: Wrap the `Avatar` inside a `Pressable` / `TouchableOpacity` and set `accessibilityRole="button"` on the wrapper. Provide a clear `accessibilityLabel` describing the action.
+
+## Examples & patterns
+
+- Avatar in a list row (left aligned) with text:
+
+```jsx
+<ListItem>
+  <Avatar source={{ uri: user.avatar }} size={40} accessibilityLabel={`Avatar of ${user.name}`} />
+  <ListItem.Content>
+    <Text>{user.name}</Text>
+    <Text muted>{user.subtitle}</Text>
+  </ListItem.Content>
+</ListItem>
+```
+
+- Linked profile avatar (opens user profile):
+
+```jsx
+<Pressable onPress={() => navigation.navigate('Profile', { id: user.id })} accessibilityRole="button" accessibilityLabel={`Open profile for ${user.name}`}>
+  <Avatar source={{ uri: user.avatar }} size={56} />
+</Pressable>
+```
+
+---
+
+For additional examples or to add usage patterns specific to your app (e.g., badges, presence indicators), tell me where you'd like badges placed and I can add examples and CSS/JSX snippets.
