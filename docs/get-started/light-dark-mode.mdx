@@ -1,0 +1,90 @@
+---
+title: "Light / Dark Mode"
+description: "How to use Galio's light and dark theme modes (auto, manual toggle and component usage)."
+keywords: ["theme","dark mode","light mode","GalioProvider","useTheme","useColors"]
+source_url: "/docs/get-started/light-dark-mode"
+---
+
+import CarbonAds from '@site/src/components/CarbonAds';
+
+# Light / Dark Mode with Galio
+
+This short tutorial shows how to enable and control light/dark mode with Galio's modern theme system. You'll learn how to:
+
+- Use the automatic (system) mode
+- Toggle modes manually from your app
+- Consume theme tokens with `useTheme()` and `useColors()`
+- Best practices for testing and accessibility
+
+<CarbonAds serve="CE7IP3L" placement="galioio" />
+
+## Auto (system) mode — simplest setup
+
+By default `GalioProvider` uses `mode='auto'` and follows the user's system preference.
+
+```jsx
+import { GalioProvider } from 'galio-framework';
+
+export default function App() {
+  return (
+    // auto: follows OS light/dark setting
+    <GalioProvider>
+      <YourApp />
+    </GalioProvider>
+  );
+}
+```
+
+## Manual control (toggle from your app)
+
+To give users a toggle, control `mode` from state and pass it to the provider.
+
+```jsx
+import React, { useState } from 'react';
+import { GalioProvider, Button } from 'galio-framework';
+
+function App() {
+  const [mode, setMode] = useState<'light' | 'dark' | 'auto'>('auto');
+
+  return (
+    <GalioProvider mode={mode}>
+      <Button onPress={() => setMode(prev => (prev === 'light' ? 'dark' : 'light'))}>
+        Toggle theme
+      </Button>
+    </GalioProvider>
+  );
+}
+
+export default App;
+```
+
+## Read current mode and tokens
+
+Inside components use `useTheme()` when you need the full theme, or `useColors()` for succinct color access.
+
+```jsx
+import { useTheme, useColors } from 'galio-framework';
+
+function Header() {
+  const { mode } = useTheme();
+  const colors = useColors();
+
+  return (
+    <View style={{ backgroundColor: colors.surface, padding: 12 }}>
+      <Text style={{ color: colors.text }}>Mode: {mode}</Text>
+    </View>
+  );
+}
+```
+
+## Component-level overrides
+
+Global overrides are done via `GalioProvider`'s `theme` prop (deep-merged). For one-off adjustments prefer component props or inline styles.
+
+```jsx
+<GalioProvider theme={{ colors: { primary: '#FF6B6B' } }}>
+  <Button color="primary">Primary</Button>
+</GalioProvider>
+```
+
+For a complete token list and custom-theme instructions, see the Theme reference: `/docs/get-started/galio-theme`.
