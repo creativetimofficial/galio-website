@@ -21,46 +21,31 @@ Toast notifications appear when the user finishes an action and you want to show
 Imports:
 
 ```jsx
-import { Toast, Block } from 'galio-framework';
+import { Toast } from 'galio-framework';
 ```
 
 Simple example:
 
 ```jsx
-<Button shadowless onPress={() => setShow(!isShow)} style={{ marginBottom: 80 }}>click here for toast notifications</Button>
-<Toast isShow={isShow} positionIndicator="top">This is a top positioned toast</Toast>
-<Toast isShow={isShow} positionIndicator="center" color="success">This is a center positioned toast</Toast>
-<Toast isShow={isShow} positionIndicator="bottom" color="warning">This is a bottom positioned toast</Toast>
-```
-
-Hook used for isShow:
-
-```jsx
 const [isShow, setShow] = useState(false);
+
+<Button onPress={() => setShow(!isShow)}>Show toast</Button>
+<Toast isShow={isShow} positionIndicator="top">This is a top positioned toast</Toast>
 ```
 
-Advanced examples:
+Advanced example:
 
 ```jsx
 <Toast
   isShow={isShow}
   positionIndicator="top"
   color="success"
-  title="Success!"
-  message="Operation completed successfully"
-  duration={3000}
-  onHide={() => setShow(false)}
-/>
+  round
+>
+  Operation completed successfully
+</Toast>
 
-<Toast
-  isShow={isShow}
-  positionIndicator="center"
-  color="error"
-  title="Error"
-  message="Something went wrong"
-  showCloseButton
-  onClose={() => setShow(false)}
-/>
+<Toast isShow={isShow} positionIndicator="center" color="error">Something went wrong</Toast>
 ```
 
 ### Props
@@ -69,12 +54,10 @@ Advanced examples:
 | ------------------- | ---------- | ---------- | --------------------------------------------------------------------------------------------------- |
 | **isShow**          | bool       | false      | Controls toast visibility                                                                           |
 | **positionIndicator** | string  | 'top'      | Toast position: 'top', 'center', 'bottom'                                                          |
-| **color**           | string     | 'primary'  | Toast color theme                                                                                   |
-| **title**           | string     | null       | Toast title                                                                                         |
-| **message**         | string     | null       | Toast message                                                                                       |
-| **duration**        | number     | 3000       | Auto-hide duration in milliseconds                                                                  |
-| **showCloseButton** | bool       | false      | Shows close button                                                                                  |
-| **onHide**          | function   | null       | Callback when toast auto-hides                                                                      |
-| **onClose**         | function   | null       | Callback when close button is pressed                                                               |
+| **positionOffset**  | number     | 120        | Offset used to calculate top/bottom position                                                      |
+| **fadeInDuration**  | number     | 300        | Fade-in animation duration (ms)                                                                    |
+| **fadeOutDuration** | number     | 300        | Fade-out animation duration (ms)                                                                   |
+| **color**           | string     | 'primary'  | Toast color theme (theme key or color string)                                                      |
+| **round**           | bool       | false      | Use rounded corners                                                                                 |
 | **style**           | object     | null       | Custom styles                                                                                       |
-| **...View.props**   | -          | -          | All React Native View props are supported                                                           |
+| **textStyle**       | object     | null       | Custom text style                                                                                   |
