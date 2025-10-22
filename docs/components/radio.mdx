@@ -43,17 +43,23 @@ Advanced examples:
 <Radio label="containerStyle and labelStyle used" containerStyle={{ backgroundColor: "#FE247220" }} labelStyle={{ color: '#1232FF' }} />
 ```
 
-Modern usage with hooks:
+Modern usage with hooks (controlled):
 
 ```jsx
 const [selectedValue, setSelectedValue] = useState('option1');
 
-<Radio 
-  label="Option 1" 
+<Radio
+  label="Option 1"
   value="option1"
   selected={selectedValue === 'option1'}
   onPress={() => setSelectedValue('option1')}
-/>
+/
+```
+
+Uncontrolled usage (legacy):
+
+```jsx
+<Radio label="Option A" initialValue />
 ```
 
 ### Props
@@ -63,12 +69,12 @@ const [selectedValue, setSelectedValue] = useState('option1');
 | **label**           | string   | null        | Radio button label                                                          |
 | **color**           | string   | `'primary'` | Radio button color                                                          |
 | **value**           | string   | null        | Radio button value                                                          |
-| **selected**        | bool     | false       | Whether this radio is selected                                              |
+| **selected**        | bool     | false       | Whether this radio is selected (controlled mode)                            |
 | **onPress**         | function | null        | Callback when radio is pressed                                              |
 | **containerStyle**  | object   | null        | Custom container styles                                                     |
 | **radioOuterStyle** | object   | null        | Custom outer radio styles                                                   |
 | **radioInnerStyle** | object   | null        | Custom inner radio styles                                                   |
 | **labelStyle**      | object   | null        | Custom label styles                                                         |
 | **disabled**        | bool     | false       | Disables the radio button                                                  |
-| **initialValue**    | bool     | false       | Initial selection state                                                     |
+| **initialValue**    | bool     | false       | Initial selection state (uncontrolled mode)                                 |
 | **style**           | object   | null        | Custom styles                                                              |
