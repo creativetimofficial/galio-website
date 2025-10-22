@@ -12,37 +12,31 @@ import CarbonAds from '@site/src/components/CarbonAds';
 
 # React Native Card Component
 
-Card is a flexible and extensible content container. It includes options for headers and footers, a wide variety of content, contextual background colors, and powerful display options.
+Card is a flexible and extensible content container for React Native. It supports headers, images, avatars, captions, and interactive content areas. You can use it to display user profiles, posts, product information, or any other visual block.
 
 <CarbonAds serve="CE7IPK3L" placement="galioio" />
 
-
-### Usage
-
-Imports:
+### Import
 
 ```jsx
 import { Card } from 'galio-framework';
 ```
 
-Simple example:
+### Basic Example
 
 ```jsx
 <Card
   flex
   borderless
-  style={styles.card}
   title="Christopher Moon"
   caption="139 minutes ago"
   location="Los Angeles, CA"
   avatar="http://i.pravatar.cc/100?id=skater"
-  imageStyle={styles.cardImageRadius}
-  imageBlockStyle={{ padding: theme.SIZES.BASE / 2 }}
   image="https://images.unsplash.com/photo-1497802176320-541c8e8de98d?&w=1600&h=900&fit=crop&crop=entropy&q=300"
 />
 ```
 
-Advanced examples:
+### Advanced Example
 
 ```jsx
 <Card
@@ -50,37 +44,67 @@ Advanced examples:
   card
   shadow
   borderless
-  style={styles.card}
   title="Custom Card"
   caption="With custom styling"
-  titleStyle={{ color: 'primary' }}
-  captionStyle={{ color: 'muted' }}
-  footer={
-    <Block row space="between">
-      <Text size={12} color="muted">Footer content</Text>
-      <Button size="small" color="primary">Action</Button>
-    </Block>
-  }
+  titleColor="primary"
+  captionColor="muted"
+  location="New York, USA"
+  rightSideComponent={<Button size="small" color="primary">Follow</Button>}
+  footerStyle={{ paddingTop: 10 }}
+  onPress={() => console.log("Card pressed!")}
+/>
+```
+
+### Full Background Image Card
+
+```jsx
+<Card
+  fullBackgroundImage
+  image="https://images.unsplash.com/photo-1557682224-5b8590cd9ec5"
+  title="Nature Escape"
+  caption="A peaceful getaway among the mountains."
+  authorImageSrc="https://i.pravatar.cc/100?id=nature"
+  authorTitle="Jane Doe"
+  authorSubTitle="Travel Blogger"
+  onPress={() => console.log("Opened card")}
 />
 ```
 
 ### Props
 
-| Prop            | Type         | Default | Description                                                                                          |
-| --------------- | ------------ | ------- | ---------------------------------------------------------------------------------------------------- |
-| **children**    | node         | null    | Card content                                                                                          |
-| **card**        | bool         | true    | Adds card styling                                                                                     |
-| **shadow**      | bool         | true    | Adds shadow styling                                                                                   |
-| **borderless**  | bool         | false   | Removes card border                                                                                   |
-| **image**       | string       | null    | Image URL or path                                                                                     |
-| **imageStyle**  | object       | null    | Custom image styles                                                                                   |
-| **imageBlockStyle** | object   | null    | Styles for the image container                                                                        |
-| **title**       | string       | null    | Card title                                                                                            |
-| **titleStyle**  | object       | null    | Custom title styles                                                                                   |
-| **caption**     | string       | null    | Card caption                                                                                          |
-| **captionStyle**| object       | null    | Custom caption styles                                                                                 |
-| **location**    | string       | null    | Location text                                                                                         |
-| **avatar**      | string       | null    | Avatar image URL                                                                                      |
-| **footer**      | node         | null    | Footer content                                                                                        |
-| **style**       | object       | null    | Custom styles                                                                                         |
-| **...View.props**| -           | -       | All React Native View props are supported                                                             |
+| Prop | Type | Default | Description |
+|------|------|----------|-------------|
+| **avatar** | string | - | URL for the avatar image. |
+| **title** | string | - | Card title text. |
+| **titleColor** | string | - | Color of the title text. |
+| **caption** | string | - | Short subtitle or secondary text. |
+| **captionColor** | string | - | Color of the caption text. |
+| **location** | string | - | Location text shown with an icon. |
+| **locationColor** | string | - | Custom color for the location text/icon. |
+| **image** | string | - | URL for the main image. |
+| **imageBlockStyle** | object | - | Custom styles for the image container. |
+| **imageStyle** | object | - | Custom styles for the image. |
+| **footerStyle** | object | - | Custom styles for the footer area. |
+| **rightSideComponent** | ReactNode | - | Component rendered on the right side of the header (e.g. button). |
+| **borderless** | bool | false | Removes border around the card. |
+| **card** | bool | true | Enables card-style background. |
+| **shadow** | bool | true | Adds subtle shadow. |
+| **neutral** | bool | false | Transparent, borderless card variant. |
+| **fullBackgroundImage** | bool | false | Uses the image as the entire background. |
+| **authorImageSrc** | string | - | Alternate avatar image source (used for author cards). |
+| **authorTitle** | string | - | Alternate title (used for author cards). |
+| **authorSubTitle** | string | - | Alternate caption (used for author cards). |
+| **onPress** | function | - | Function called when the card is pressed. |
+| **flex** | bool | false | Makes the card expand to fill available space. |
+| **shadowColor** | string | - | Custom shadow color. |
+| **style** | object | - | Custom styles for the card container. |
+| **children** | ReactNode | - | Custom JSX content inside the card. |
+| **...View.props** | - | - | All native View props are supported. |
+
+### Notes
+
+- The `Card` component is designed to be **theme-aware**, adapting colors and spacing from your theme.
+- For clickable cards, wrap content with `onPress` instead of a separate `TouchableOpacity`.
+- Works seamlessly with the `Block`, `Button`, and `Text` components from Galio.
+
+---
