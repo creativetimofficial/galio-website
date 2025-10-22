@@ -23,15 +23,18 @@ This accordion component made by Galio is easily customizable. Built with Flatli
 Imports:
 
 ```jsx
-// import { Accordion, Block } from 'galio-framework';
+import { Accordion } from 'galio-framework';
 ```
 
 Simple example:
 
 ```jsx
-<Block style={{ height: 200 }}>
-  <Accordion dataArray={data} />
-</Block>
+const data = [
+  { title: 'First', content: 'First content' },
+  { title: 'Second', content: 'Second content' },
+];
+
+<Accordion dataArray={data} opened={0} />
 ```
 
 The data array looks like:
@@ -53,24 +56,22 @@ const data = [
 Advanced examples:
 
 ```jsx
+// Simple: open first item
 <Accordion
   dataArray={data}
   opened={0}
-  icon="chevron-down"
-  iconFamily="feather"
-  iconSize={20}
-  iconColor="primary"
-  listStyle={{ backgroundColor: 'white' }}
-  style={{ margin: 16 }}
+  onAccordionOpen={(item, index) => console.log('open', index)}
+  onAccordionClose={(item, index) => console.log('close', index)}
 />
 
+// Custom icons and styles
 <Accordion
-  dataArray={customData}
-  opened={-1}
-  customIcon={
-    <Icon name="plus" family="feather" size={16} color="primary" />
-  }
-  onToggle={(index) => console.log('Toggled:', index)}
+  dataArray={data}
+  icon={{ name: 'chevron-down', family: 'feather' }}
+  expandedIcon={{ name: 'chevron-up', family: 'feather' }}
+  headerStyle={{ padding: 12 }}
+  contentStyle={{ padding: 16 }}
+  shadow="sm"
 />
 ```
 
@@ -78,14 +79,15 @@ Advanced examples:
 
 | Prop            | Type     | Default | Description                                                                                                     |
 |-----------------|----------|---------|-----------------------------------------------------------------------------------------------------------------|
-| **dataArray**   | array    | null    | Array of objects with keys: title, content, icon: { `name`, `family`, `size`, `color`, `style`}                          |
-| **opened**      | number   | -1      | Index of initially opened accordion item                                                                       |
-| **icon**        | string   | null    | Icon name for accordion items                                                                                  |
-| **iconFamily**  | string   | null    | Icon family for accordion items                                                                                |
-| **iconSize**    | number   | 16      | Icon size                                                                                                       |
-| **iconColor**   | string   | null    | Icon color                                                                                                      |
-| **customIcon**  | component| null    | Custom icon component                                                                                           |
-| **listStyle**   | object   | null    | FlatList style                                                                                                  |
-| **style**       | object   | null    | Container styles                                                                                                |
-| **onToggle**    | function | null    | Callback when accordion item is toggled                                                                        |
-| **...FlatList.props** | - | - | All FlatList props are supported                                                                               |
+| **dataArray**   | array    | null    | Array of items: \{ title, content, icon? \}                                                                       |
+| **opened**      | number   | undefined | Index of item initially opened                                                                                 |
+| **icon**        | object   | undefined | Default icon for collapsed items (object with name/family/size/color)                                          |
+| **expandedIcon**| object   | undefined | Icon shown for expanded items                                                                                    |
+| **headerStyle** | object   | undefined | Style for header row                                                                                             |
+| **contentStyle**| object   | undefined | Style for content area                                                                                           |
+| **onAccordionOpen** | function | undefined | Callback (item, index) when opened                                                                               |
+| **onAccordionClose**| function | undefined | Callback (item, index) when closed                                                                               |
+| **listStyle**   | object   | undefined | Style for the wrapping list container                                                                            |
+| **style**       | object   | undefined | Container styles                                                                                                 |
+| **titleStyle**  | object   | undefined | Title text style                                                                                                 |
+| **shadow**      | string   | 'md'     | Semantic shadow level (none | xs | sm | md | lg | xl)                                                              |
