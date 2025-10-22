@@ -1,0 +1,77 @@
+---
+title: "Link"
+description: "Theme-aware link component for React Native applications using Galio Framework."
+keywords: ["Link","Link - Documentation"]
+source_url: "/docs/components/link"
+---
+
+import CarbonAds from '@site/src/components/CarbonAds';
+
+# React Native Link Component
+
+A theme-aware link component suitable for in-app navigation and external links. Supports custom text styles and disabled state.
+
+<CarbonAds serve="CE7IPK3L" placement="galioio" />
+
+## Usage
+Example usage of the Link component:
+
+```jsx
+import Link from 'galio-framework/Link';
+
+// Simple link
+<Link onPress={() => alert('Clicked!')}>Default Link</Link>
+
+// Theme-aware color
+<Link onPress={goToProfile} color="primary">Primary Link</Link>
+
+// Custom text style & disabled state
+<Link onPress={() => {}} textStyle={{ fontWeight: '700' }} disabled>Disabled Link</Link>
+
+// Using ref to imperatively trigger the link (forwardRef)
+const ref = React.createRef();
+<Link ref={ref} onPress={() => console.log('pressed')}>Press me</Link>
+// later: ref.current.press()
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `React.ReactNode` | — | Link content (text or nodes). |
+| `onPress` | `() => void` | — | Required press handler. |
+| `color` | `string` | `theme.colors.primary` | Theme color key or raw color string. If the value matches a theme key it will be resolved to the theme color. |
+| `textStyle` | `TextStyle` | — | Style applied to the inner text node (merged with default underline). |
+| `style` | `ViewStyle` | — | Container / Pressable style. On web a pointer cursor is applied. |
+| `disabled` | `boolean` | `false` | Disables interaction and lowers opacity. |
+| `activeOpacity` | `number` | `0.7` | Pressable active opacity (legacy prop kept for API parity). |
+| `ref` | `forwardRef` | — | Imperative handle exposes `.press()` to programmatically trigger the link. |
+
+## Developer Guide
+
+### Contract (inputs / outputs)
+- Inputs: `children`, required `onPress`, optional `color`, `textStyle`, `style`, `disabled`, `activeOpacity`.
+- Outputs: none — the component invokes `onPress` when activated. The forwarded ref exposes `press()` method.
+- Error modes: missing `onPress` will make the link inert; pass a no-op to avoid runtime surprises when needed.
+
+### Color resolution
+- `color` accepts either a theme color key or raw color string. The component will resolve the key against `theme.colors` (via `useColors`) and fall back to `colors.primary` or provided `textStyle.color`.
+- Prefer theme keys for consistent app-wide appearance.
+
+### Accessibility
+- The component sets `accessibilityRole="link"` and forwards `accessibilityState={{ disabled }}`. Ensure that the inner content conveys purpose; add `accessibilityLabel` when the link text is not descriptive.
+
+### Web behavior
+- On web a `cursor: pointer` is applied by default; `userSelect: 'none'` prevents accidental text selection on clickable links.
+
+### Testing
+- Unit test: render component and simulate press; assert `onPress` is called and that `disabled` blocks interaction.
+- Integration/e2e: assert keyboard and touch activation triggers `onPress`, and that `accessibilityRole` is set to `link`.
+
+***
+
+
+## Notes
+
+- Link uses `accessibilityRole="link"` for better assistive technology behaviour.
+- For non-text content, pass a React node as `children`.
